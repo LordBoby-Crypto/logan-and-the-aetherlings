@@ -3,17 +3,17 @@
 ## Issue identity
 
 Issue ID: BUG-001
-Title: Defeated lead re-enters battle at zero health
+Title: Zero-health state crosses encounter boundary
 State: Fixed awaiting retest
 Severity: Major
 Priority: Current milestone
 First reported: 2026-07-21
 Reported build: 0.0.7-pages.1
-Current repair build: 0.0.8-pages.1
+Current repair build: 0.0.9-pages.1
 Affected platforms: Windows browser observed; shared web/PWA logic affects Windows and iPhone
 AI verification status: PASS
 User retest status: PENDING
-Reopen count: 0
+Reopen count: 1
 Duplicate of: None
 
 ## Original report
@@ -23,6 +23,15 @@ Was not able to capture it and it died then when I re encountered it, it started
 <!-- ORIGINAL_REPORT_END -->
 Original report SHA-256: c16130f9a112108aec1a84179f2692cf0d1d4e7eaf49c2d26dcf25556664bd2e
 
+### Reporter clarification
+
+<!-- CLARIFICATION_REPORT_START -->
+How do I reset the game state so I can test properly since when I load in I already have the Wild Aetherling in my party. And what I ment before was that I was battling the wild Aetherling and killed it. When I reencountered the Wild Aetherling still had 0 HP and when I enteracted with the crystal to heal my Aetherling it healed both my Aetherling and the wild one not just my Aetherling. But you are saying you fixed that right?
+<!-- CLARIFICATION_REPORT_END -->
+Clarification report SHA-256: ac704789c8bc6811118b939c8ae212b4b34837d66d75ca8bd1b3eaa2e12c5487
+
+The reporter confirmed that “it” meant the wild Mirelume, not Kivren. The earlier 0.0.8 triage interpreted the entity incorrectly, so BUG-001 was reopened before verification. The reporter subsequently confirmed that clearing the browser’s site data successfully reset the save.
+
 ## Context and evidence
 
 - Source: owner playtest, Test 2 and refresh portion of Test 3 in `docs/playtests/0.0.7-handoff.md`.
@@ -31,16 +40,16 @@ Original report SHA-256: c16130f9a112108aec1a84179f2692cf0d1d4e7eaf49c2d26dcf255
 - Frequency: zero-HP re-entry occurred on the next encounter; capture required four encounters.
 - Restart behavior: refresh restored progress successfully.
 - Evidence: user report above; no screenshot, video, log, or crash.
-- Clarification pending: “healed it” is interpreted as Kivren because the crystal code only modifies party state. Battle labels were unclear, so the repair makes ownership explicit.
+- Clarification received: the observed 0 HP and crystal restoration were identified by the reporter as belonging to wild Mirelume.
 
 ## Triage
 
 - Severity rationale: Major. A defeated lead could immediately enter the core capture flow unable to act successfully. The crystal was a workaround, but it materially interrupted and obscured the primary loop.
-- Affected range/population: all 0.0.4–0.0.7 web/PWA players who lose the lead and re-enter before healing.
+- Affected range/population: reported on 0.0.7 Windows browser; the shared battle lifecycle applies to Windows and iPhone web/PWA.
 - Data/security/safety risk: no corruption, privacy, or security risk found; the valid zero-HP party state persisted as designed.
-- Workaround: visit the teal crystal before re-entering battle.
+- Workaround: clear only this game site’s browser data to start a new save; this permanently erases that device’s progress.
 - Release impact: production asset work remains gated on this focused retest.
-- Regression status: longstanding missing defeat recovery, not a newly introduced 0.0.7 regression.
+- Regression status: exact clarified wild-state path is not reproduced by current source; 0.0.7 contained the independently confirmed missing defeat recovery.
 - Duplicate search: no existing bug record or known issue matched.
 - Owner: battle lifecycle and battle UI.
 
@@ -56,14 +65,22 @@ Attempt 1 — code-path reproduction
 - Frequency/result: deterministic, REPRODUCED by code path.
 - Evidence: former `src/main.ts` return handler and `createBattle` input path.
 
+Attempt 2 — clarified wild-state path inspection
+
+- Build/configuration: 0.0.8 source and deployed bundle path.
+- Starting state: wild Mirelume hypothetically reaches 0 HP, encounter ends, player uses the crystal, then re-enters.
+- Expected: attacks clamp capturable wild HP to 1; a re-encounter creates a separate Mirelume at 30 HP; the crystal mutates only `partyState`.
+- Actual: static and automated inspection found no path that saves wild battle state or passes it to `healParty`; the exact clarified variant was NOT REPRODUCED in available AI environment.
+- Evidence: `takeBattleAction`, `createBattle`, `healParty`, and version-1 save schema; cloud runtime remains blocked by unavailable WebGL.
+
 ## Root cause
 
 - Symptom: Kivren begins the next encounter at 0 HP; capture testing becomes impractical.
 - Trigger: defeat, return, then re-enter without crystal healing.
-- Root cause: the return handler saved battle HP for every outcome but had no defeat recovery branch or encounter-entry health guard.
+- Root cause: the confirmed zero-HP re-entry path was caused by the return handler saving lead HP without a defeat recovery branch or encounter-entry guard. The exact clarified wild-health variant has no matching persistence or crystal mutation path in the inspected source; its cause remains unconfirmed pending device retest.
 - Escape cause: rule tests covered damage, capture, party healing, and persistence separately, but not defeat-to-reencounter lifecycle behavior.
 - Affected surface: keyboard and touch interaction share the same route; existing saves can validly contain a zero-HP lead.
-- Rejected hypotheses: Mirelume dying or the crystal healing wild state. Attacks clamp wild HP to 1, new wild battles start at 30 HP, and the crystal only calls `healParty`.
+- Rejected as current-code paths, not as player observations: attacks reaching wild 0 HP, saves storing a wild battler, and the crystal mutating an active wild battler.
 - Contributing usability issue: the battle cards did not explicitly label “Wild Aetherling” and “Your lead.”
 
 ## Repair
@@ -79,9 +96,17 @@ Attempt 1 — code-path reproduction
 - Rollback: revert the 0.0.8 repair commit. No data rollback or migration is needed.
 - Residual risk: target-device interaction and visual clarity require owner confirmation.
 
+### 0.0.9 state-isolation repair
+
+- Wild Mirelume now comes from a dedicated factory that always returns a new full-health, status-free object.
+- Leaving any battle explicitly discards the old battle object before another interaction.
+- Crystal isolation and independent re-encounter state have dedicated automated regressions.
+- Party includes a guarded **Reset Test Save** action that clears both primary and backup slots only after explicit confirmation, then reloads.
+- The exact clarified symptom remains a target-device retest requirement because it was not reproducible in the AI environment.
+
 ## Automated regression coverage
 
-Automated regression test: `src/game/battle.test.ts` — “prevents a defeated lead from entering another encounter”; “starts each encounter with five Aether Prisms”; “guarantees capture after weakening to 1 HP and applying Snare”
+Automated regression test: `src/game/battle.test.ts` — “creates every re-encounter with independent full wild health”; `src/game/party.test.ts` — “heals only the party without changing wild encounter health”; `src/platform/saveRepository.test.ts` — “clears both save slots for a deliberate test reset”
 Faulty-build result: reproduced through controlled zero-HP fixture and comparison with the former unconditional start path
 Repair-build result: PASS
 Manual fallback: Retest 1 below verifies the integrated route-to-battle lifecycle.
@@ -108,6 +133,7 @@ Manual fallback: Retest 1 below verifies the integrated route-to-battle lifecycl
 | Attempt | Date | Build | Configuration | Result | Failed step/observation | Evidence | State after |
 |---|---|---|---|---|---|---|---|
 | 1 | 2026-07-21 | 0.0.7-pages.1 | Windows laptop browser, existing save | FAIL | Defeat carried 0 HP into the next encounter; capture took four encounters | Original report | Confirmed |
+| 2 | 2026-07-21 | 0.0.8-pages.1 | Windows laptop browser | BLOCKED | Existing save already contained Mirelume; site-data reset instructions worked | Reporter confirmation | Reopened |
 
 ## Focused retest checklist
 

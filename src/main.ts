@@ -54,6 +54,7 @@ const partyButton = requireElement<HTMLButtonElement>('#party-button')
 const partyCount = requireElement<HTMLElement>('#party-count')
 const partyScreen = requireElement<HTMLElement>('#party-screen')
 const closeParty = requireElement<HTMLButtonElement>('#close-party')
+const resetSaveButton = requireElement<HTMLButtonElement>('#reset-save-button')
 const partyMembers = requireElement<HTMLElement>('#party-members')
 const sanctuaryCount = requireElement<HTMLElement>('#sanctuary-count')
 const gameToast = requireElement<HTMLElement>('#game-toast')
@@ -177,6 +178,20 @@ try {
 
   partyButton.addEventListener('click', () => { renderParty(); partyScreen.hidden = false })
   closeParty.addEventListener('click', () => { partyScreen.hidden = true })
+  resetSaveButton.addEventListener('click', async () => {
+    const approved = window.confirm('Reset all local progress on this device? This cannot be undone.')
+    if (!approved) return
+    resetSaveButton.disabled = true
+    try {
+      await saveChain
+      await saveRepository.clear()
+      window.location.reload()
+    } catch (error) {
+      console.error('Unable to reset local save', error)
+      resetSaveButton.disabled = false
+      showToast('Save reset failed. Your progress was not changed.')
+    }
+  })
 
   const renderBattle = (): void => {
     battleTurn.textContent = String(battleState.turn)
@@ -231,6 +246,7 @@ try {
     renderParty()
     encounterState = leaveEncounter()
     encounterScreen.hidden = true
+    battleState = createBattle(partyState.members[0])
     partyButton.hidden = false
     void persistGame()
   })

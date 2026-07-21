@@ -7,6 +7,7 @@ class MemoryStore implements SaveSlotStore {
   slots: Record<string, unknown> = {}
   async read(slot: 'primary' | 'backup') { return this.slots[slot] }
   async commit(primary: unknown, backup: unknown) { this.slots.backup = backup; this.slots.primary = primary }
+  async clear() { this.slots = {} }
 }
 
 describe('SaveRepository', () => {
@@ -27,5 +28,13 @@ describe('SaveRepository', () => {
     const result = await new SaveRepository(store).load()
     expect(result.recovered).toBe(true)
     expect(result.save?.player).toEqual({ x: 3, z: 4 })
+  })
+
+  it('clears both save slots for a deliberate test reset', async () => {
+    const store = new MemoryStore()
+    const repository = new SaveRepository(store)
+    await repository.save(createGameSave({ x: 1, z: 1 }, createParty(), true))
+    await repository.clear()
+    expect(await repository.load()).toEqual({ save: undefined, recovered: false })
   })
 })

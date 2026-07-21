@@ -13,3 +13,4 @@
 | B-009 | User test failed | 0.0.7 battle/capture failed; refresh persistence passed; install/offline remains pending |
 | B-010 | Planned | Supply first MeshyAI brief after scale/budget proof |
 | B-011 | Fixed awaiting retest | BUG-001 defeat recovery, battle labels, and capture-friction repair in 0.0.8 |
+| B-012 | Fixed awaiting retest | BUG-001 clarified wild-state isolation, crystal boundary, and test-save reset in 0.0.9 |

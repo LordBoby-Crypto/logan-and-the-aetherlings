@@ -4,9 +4,9 @@ An original, family-friendly 3D creature-collecting RPG for Windows browsers and
 
 ## Project status
 
-Approved for preproduction on 2026-07-21. Version 0.0.8 repairs defeated-party recovery and capture friction while retaining the browser/PWA foundation, Mossmere exploration, party/healing, validated local saves, and live FPS diagnostics.
+Approved for preproduction on 2026-07-21. Version 0.0.9 isolates wild encounter health from party healing, rebuilds wild state for every encounter, adds an in-game test-save reset, and retains the browser/PWA foundation, Mossmere exploration, capture, party/healing, validated local saves, and live FPS diagnostics.
 
-[Play version 0.0.8](https://lordboby-crypto.github.io/logan-and-the-aetherlings/)
+[Play version 0.0.9](https://lordboby-crypto.github.io/logan-and-the-aetherlings/)
 
 ## Approved direction
 

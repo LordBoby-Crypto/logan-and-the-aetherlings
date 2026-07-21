@@ -22,10 +22,14 @@ export function canStartBattle(lead: Battler): boolean {
   return lead.hp > 0
 }
 
+export function createWildMirelume(): Battler {
+  return { name: 'Mirelume', level: 4, hp: 30, maxHp: 30, snared: false }
+}
+
 export function createBattle(lead?: Battler): BattleState {
   return {
     ally: lead ? { ...lead } : { name: 'Kivren', level: 5, hp: 34, maxHp: 34, snared: false },
-    wild: { name: 'Mirelume', level: 4, hp: 30, maxHp: 30, snared: false },
+    wild: createWildMirelume(),
     prisms: 5,
     turn: 1,
     outcome: 'active',

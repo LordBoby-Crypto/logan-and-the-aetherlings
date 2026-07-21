@@ -15,3 +15,4 @@
 - Implemented version 0.0.6 versioned IndexedDB saves with strict validation, migration, atomic primary/backup replacement, corruption recovery, and lifecycle autosaving.
 - Deployed version 0.0.7 to GitHub Pages with a live FPS diagnostic and issued the first combined Windows/iPhone playtest handoff.
 - Prepared version 0.0.8: defeated parties recover safely, zero-HP leads cannot enter battle, wild/player battle labels are explicit, encounters provide five Prisms, and 1 HP plus Snare guarantees capture. Refresh persistence passed owner testing; install/offline remains pending.
+- Prepared version 0.0.9 after reporter clarification: each re-encounter receives independent full wild health, battle state is discarded on exit, crystal healing is regression-tested as party-only, and Party now includes a confirmed local test-save reset.

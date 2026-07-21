@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { createBattle } from './battle'
 import { createParty, healParty, placeCapture, updateLead } from './party'
 
 describe('party management', () => {
@@ -20,5 +21,14 @@ describe('party management', () => {
   it('carries lead damage from battle and heals every party member', () => {
     const damaged = updateLead(createParty(), { name: 'Kivren', level: 5, hp: 9, maxHp: 34, snared: false })
     expect(healParty(damaged).members[0].hp).toBe(34)
+  })
+
+  it('heals only the party without changing wild encounter health', () => {
+    const battle = createBattle()
+    battle.wild.hp = 7
+    const damaged = updateLead(createParty(), { ...battle.ally, hp: 4 })
+    const healed = healParty(damaged)
+    expect(healed.members[0].hp).toBe(34)
+    expect(battle.wild.hp).toBe(7)
   })
 })

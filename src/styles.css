@@ -163,6 +163,8 @@ button { font: inherit; }
 .party-hp { grid-column: 2 / 4; height: 0.45rem; border-radius: 1rem; background: #071016; overflow: hidden; }
 .party-hp i { display: block; height: 100%; background: #5bd184; }
 .party-help, #sanctuary-count { color: #b9c9c7; font-size: 0.82rem; }
+#reset-save-button { min-height: 44px; padding: 0.55rem 0.8rem; border: 1px solid #b96b67; border-radius: 0.6rem; color: #f4eddc; background: #432526; cursor: pointer; }
+#reset-save-button:disabled { opacity: 0.55; cursor: wait; }
 #game-toast { position: absolute; z-index: 30; top: max(1rem, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); padding: 0.7rem 1rem; border: 1px solid #27c5d9; border-radius: 0.6rem; color: #f4eddc; background: #0b1820; box-shadow: 0 12px 35px #000; }
 #game-toast[hidden] { display: none; }
 

@@ -3,6 +3,7 @@ import { parseGameSave, type GameSave } from './saveData'
 export interface SaveSlotStore {
   read(slot: 'primary' | 'backup'): Promise<unknown>
   commit(primary: GameSave, backup: unknown): Promise<void>
+  clear(): Promise<void>
 }
 
 export class SaveRepository {
@@ -18,6 +19,10 @@ export class SaveRepository {
   async save(next: GameSave): Promise<void> {
     const previous = await this.store.read('primary')
     await this.store.commit(next, previous)
+  }
+
+  async clear(): Promise<void> {
+    await this.store.clear()
   }
 }
 
@@ -54,5 +59,13 @@ export class IndexedDbSaveStore implements SaveSlotStore {
       transaction.onabort = () => reject(transaction.error)
     })
   }
-}
 
+  async clear(): Promise<void> {
+    const database = await this.database
+    return new Promise((resolve, reject) => {
+      const request = database.transaction('saves', 'readwrite').objectStore('saves').clear()
+      request.onsuccess = () => resolve()
+      request.onerror = () => reject(request.error)
+    })
+  }
+}

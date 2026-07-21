@@ -8,6 +8,15 @@ describe('battle prototype', () => {
     expect(takeBattleAction(state, 'pulse-strike', () => 0).wild.hp).toBe(1)
   })
 
+  it('creates every re-encounter with independent full wild health', () => {
+    const first = createBattle()
+    first.wild.hp = 1
+    first.wild.snared = true
+    const reEncounter = createBattle()
+    expect(reEncounter.wild).toMatchObject({ hp: 30, maxHp: 30, snared: false })
+    expect(reEncounter.wild).not.toBe(first.wild)
+  })
+
   it('improves capture chance through weakening and Snare', () => {
     const healthy = createBattle().wild
     const weakened = { ...healthy, hp: 5, snared: true }
