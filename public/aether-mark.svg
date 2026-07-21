@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Aether Prism mark">
+  <rect width="512" height="512" rx="112" fill="#0b1820"/>
+  <path d="M256 76 430 392H82L256 76Z" fill="none" stroke="#e8d29d" stroke-width="28" stroke-linejoin="round"/>
+  <path d="m256 154 93 170H163l93-170Z" fill="#27c5d9" opacity=".9"/>
+  <path d="m256 154 93 170-93-44-93 44 93-170Z" fill="#79e7ed" opacity=".35"/>
+  <circle cx="256" cy="324" r="22" fill="#e8d29d"/>
+</svg>
