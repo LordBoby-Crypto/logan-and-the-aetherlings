@@ -20,6 +20,7 @@ export interface GrayboxSceneContext {
   scene: Scene
   camera: ArcRotateCamera
   player: TransformNode
+  encounterTarget: TransformNode
 }
 
 function material(scene: Scene, name: string, color: Color3): StandardMaterial {
@@ -65,6 +66,7 @@ export function createGrayboxScene(engine: Engine): GrayboxSceneContext {
   tealMaterial.emissiveColor = new Color3(0.02, 0.28, 0.34)
   const loganMaterial = material(scene, 'logan-material', new Color3(0.05, 0.32, 0.42))
   const darkMaterial = material(scene, 'dark-material', new Color3(0.12, 0.1, 0.08))
+  const wildMaterial = material(scene, 'wild-aetherling-material', new Color3(0.64, 0.32, 0.76))
 
   const ground = CreateGround('route-ground', { width: 30, height: 38 }, scene)
   ground.material = grassMaterial
@@ -124,6 +126,18 @@ export function createGrayboxScene(engine: Engine): GrayboxSceneContext {
   head.parent = player
   head.material = darkMaterial
 
+  const encounterTarget = new TransformNode('wild-aetherling-graybox-root', scene)
+  encounterTarget.position = new Vector3(-1.6, 0, -1.2)
+  const wildBody = CreateIcoSphere('wild-aetherling-graybox', { radius: 0.72, subdivisions: 1 }, scene)
+  wildBody.position.y = 0.85
+  wildBody.scaling = new Vector3(1, 0.8, 1.2)
+  wildBody.parent = encounterTarget
+  wildBody.material = wildMaterial
+  const wildCrest = CreatePolyhedron('wild-aetherling-crest-graybox', { type: 1, size: 0.38 }, scene)
+  wildCrest.position = new Vector3(0, 1.65, 0)
+  wildCrest.parent = encounterTarget
+  wildCrest.material = tealMaterial
+
   scene.activeCamera = camera
-  return { scene, camera, player }
+  return { scene, camera, player, encounterTarget }
 }

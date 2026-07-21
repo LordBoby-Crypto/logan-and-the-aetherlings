@@ -39,11 +39,22 @@
         <span>Mossmere Path</span>
       </div>
 
+      <div id="interaction-prompt" hidden><kbd>E</kbd><span>Approach wild Aetherling</span></div>
+
+      <section id="encounter-screen" aria-live="polite" hidden>
+        <div class="encounter-card">
+          <span class="eyebrow">Wild encounter</span>
+          <h2>An unknown Aetherling appeared!</h2>
+          <p>This is the battle transition staging area. Combat and Aether Prism capture arrive in the next slice.</p>
+          <button id="return-to-route" type="button">Return to Mossmere Path</button>
+        </div>
+      </section>
+
       <section id="touch-controls" aria-label="Touch controls" hidden>
         <div id="movement-pad" aria-label="Movement joystick">
           <div id="movement-knob"></div>
         </div>
-        <button id="interact-button" type="button" aria-label="Interact">
+        <button id="interact-button" type="button" aria-label="Interact" disabled>
           <span aria-hidden="true">△</span>
           <strong>Interact</strong>
         </button>

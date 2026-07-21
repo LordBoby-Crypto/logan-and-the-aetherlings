@@ -1,7 +1,7 @@
 # Current Status
 
 - Date: 2026-07-21
-- Current build: 0.0.2 graybox exploration controls; not deployed
+- Current build: 0.0.3 interaction and encounter transition; not deployed
 - Current milestone: Preproduction — graybox exploration
 - Approval source: `decisions/DEC-001-concept-greenlight.md`
 
@@ -12,12 +12,13 @@
 - Pinned TypeScript/Vite/Babylon.js/PWA foundation implemented.
 - Responsive shell, orientation policy, install/update handling, disposable Mossmere graybox, automated checks, and CI workflow implemented.
 - WASD/arrow movement, touch joystick, camera following, bounded movement, obstacle collision/sliding, and input lifecycle recovery implemented.
+- Contextual wild interaction and the repeatable route-to-battle staging seam implemented.
 
 ## Verification
 
 - Recovered greenlight package passed validation with no errors or warnings.
 - Continuity audit found all required record classes with no conflicts.
-- `npm run check` passed lint, 4 test files/11 tests, TypeScript compilation, production build, and PWA generation.
+- `npm run check` passed lint, 6 test files/15 tests, TypeScript compilation, production build, and PWA generation.
 - Headless Babylon scene construction/render and production HTTP/PWA smoke checks passed.
 - Hosted visual and real-device checks have not run.
 
@@ -28,4 +29,4 @@
 
 ## Next task
 
-Implement interaction targeting and the route-to-wild-encounter transition seam.
+Implement the first turn-based battle and Aether Prism capture prototype.

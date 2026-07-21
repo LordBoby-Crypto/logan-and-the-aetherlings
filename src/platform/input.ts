@@ -1,16 +1,19 @@
 import { Vector2 } from '@babylonjs/core/Maths/math.vector.pure.js'
 
 const movementKeys = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'KeyW', 'KeyA', 'KeyS', 'KeyD'])
+const interactionKeys = new Set(['KeyE', 'Enter', 'Space'])
 
 export class InputController {
   readonly movement = new Vector2(0, 0)
   private readonly pressed = new Set<string>()
   private touchMovement = new Vector2(0, 0)
   private touchPointerId: number | undefined
+  private interactionQueued = false
 
   constructor(
     private readonly pad: HTMLElement,
     private readonly knob: HTMLElement,
+    private readonly interactButton: HTMLButtonElement,
   ) {
     window.addEventListener('keydown', this.onKeyDown)
     window.addEventListener('keyup', this.onKeyUp)
@@ -19,6 +22,7 @@ export class InputController {
     this.pad.addEventListener('pointermove', this.onPointerMove)
     this.pad.addEventListener('pointerup', this.onPointerEnd)
     this.pad.addEventListener('pointercancel', this.onPointerEnd)
+    this.interactButton.addEventListener('click', this.onInteract)
   }
 
   update(): Vector2 {
@@ -30,6 +34,12 @@ export class InputController {
     return this.movement
   }
 
+  consumeInteraction(): boolean {
+    const queued = this.interactionQueued
+    this.interactionQueued = false
+    return queued
+  }
+
   dispose(): void {
     window.removeEventListener('keydown', this.onKeyDown)
     window.removeEventListener('keyup', this.onKeyUp)
@@ -38,13 +48,21 @@ export class InputController {
     this.pad.removeEventListener('pointermove', this.onPointerMove)
     this.pad.removeEventListener('pointerup', this.onPointerEnd)
     this.pad.removeEventListener('pointercancel', this.onPointerEnd)
+    this.interactButton.removeEventListener('click', this.onInteract)
   }
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
+    if (interactionKeys.has(event.code)) {
+      event.preventDefault()
+      if (!event.repeat) this.interactionQueued = true
+      return
+    }
     if (!movementKeys.has(event.code)) return
     event.preventDefault()
     this.pressed.add(event.code)
   }
+
+  private readonly onInteract = (): void => { this.interactionQueued = true }
 
   private readonly onKeyUp = (event: KeyboardEvent): void => {
     this.pressed.delete(event.code)

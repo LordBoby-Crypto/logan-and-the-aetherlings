@@ -128,6 +128,42 @@ button { font: inherit; }
   cursor: pointer;
 }
 
+#interaction-prompt {
+  position: absolute;
+  z-index: 12;
+  left: 50%;
+  bottom: max(2rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgb(232 210 157 / 55%);
+  border-radius: 0.65rem;
+  background: rgb(7 16 22 / 86%);
+  box-shadow: 0 10px 28px rgb(0 0 0 / 30%);
+}
+#interaction-prompt[hidden] { display: none; }
+#interaction-prompt kbd { padding: 0.2rem 0.45rem; border: 1px solid #e8d29d; border-radius: 0.3rem; color: #27c5d9; }
+
+#encounter-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 18;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background: radial-gradient(circle at 50% 50%, rgb(39 197 217 / 24%), rgb(7 16 22 / 96%) 58%);
+  animation: encounter-arrive 420ms ease-out;
+}
+#encounter-screen[hidden] { display: none; }
+.encounter-card { max-width: 36rem; padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid #e8d29d; border-radius: 1rem; text-align: center; background: #0b1820; box-shadow: 0 24px 80px #000; }
+.encounter-card h2 { margin: 0.45rem 0 0.8rem; font: 700 clamp(1.8rem, 4vw, 3.2rem)/1.05 Georgia, serif; }
+.encounter-card p { color: #b9c9c7; line-height: 1.5; }
+.encounter-card button { min-height: 44px; padding: 0.7rem 1rem; border: 0; border-radius: 0.6rem; background: #e8d29d; color: #0b1820; font-weight: 750; cursor: pointer; }
+.eyebrow { color: #27c5d9; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+@keyframes encounter-arrive { from { opacity: 0; transform: scale(1.04); } }
+
 #touch-controls {
   position: absolute;
   inset: 0;
@@ -186,6 +222,7 @@ button { font: inherit; }
 #interact-button span { color: #27c5d9; font-size: 2rem; line-height: 0.8; }
 #interact-button strong { font-size: 0.78rem; }
 #interact-button:active { transform: scale(0.96); }
+#interact-button:disabled { opacity: 0.42; filter: grayscale(0.7); }
 
 #install-button:focus-visible { outline: 3px solid #27c5d9; outline-offset: 3px; }
 

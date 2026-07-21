@@ -4,7 +4,7 @@ An original, family-friendly 3D creature-collecting RPG for Windows browsers and
 
 ## Project status
 
-Approved for preproduction on 2026-07-21. Version 0.0.2 contains the browser/PWA foundation, disposable Mossmere graybox, keyboard/touch movement, camera following, and initial collision. Interaction and battles are not implemented yet.
+Approved for preproduction on 2026-07-21. Version 0.0.3 contains the browser/PWA foundation, disposable Mossmere graybox, keyboard/touch exploration, contextual wild interaction, and a battle-transition staging screen. Turn-based combat and capture are next.
 
 ## Approved direction
 
