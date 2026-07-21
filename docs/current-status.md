@@ -1,7 +1,7 @@
 # Current Status
 
 - Date: 2026-07-21
-- Current build: 0.0.1 technical foundation; not deployed
+- Current build: 0.0.2 graybox exploration controls; not deployed
 - Current milestone: Preproduction — graybox exploration
 - Approval source: `decisions/DEC-001-concept-greenlight.md`
 
@@ -11,12 +11,13 @@
 - Five-document greenlight package created.
 - Pinned TypeScript/Vite/Babylon.js/PWA foundation implemented.
 - Responsive shell, orientation policy, install/update handling, disposable Mossmere graybox, automated checks, and CI workflow implemented.
+- WASD/arrow movement, touch joystick, camera following, bounded movement, obstacle collision/sliding, and input lifecycle recovery implemented.
 
 ## Verification
 
 - Recovered greenlight package passed validation with no errors or warnings.
 - Continuity audit found all required record classes with no conflicts.
-- `npm run check` passed lint, 3 test files/7 tests, TypeScript compilation, production build, and PWA generation.
+- `npm run check` passed lint, 4 test files/11 tests, TypeScript compilation, production build, and PWA generation.
 - Headless Babylon scene construction/render and production HTTP/PWA smoke checks passed.
 - Hosted visual and real-device checks have not run.
 
@@ -27,4 +28,4 @@
 
 ## Next task
 
-Implement player movement, camera tracking, collision, and touch controls in the graybox.
+Implement interaction targeting and the route-to-wild-encounter transition seam.
