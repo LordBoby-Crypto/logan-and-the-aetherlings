@@ -57,6 +57,7 @@ const closeParty = requireElement<HTMLButtonElement>('#close-party')
 const partyMembers = requireElement<HTMLElement>('#party-members')
 const sanctuaryCount = requireElement<HTMLElement>('#sanctuary-count')
 const gameToast = requireElement<HTMLElement>('#game-toast')
+const fpsLabel = requireElement<HTMLElement>('#fps-label')
 
 let installPrompt: InstallPromptEvent | undefined
 
@@ -126,6 +127,7 @@ try {
   let toastTimer: number | undefined
   let lastPositionSave = 0
   let saveChain = Promise.resolve()
+  let lastFpsUpdate = 0
   const routeBounds = { minX: -3.2, maxX: 3.2, minZ: -15, maxZ: 10.5 }
   const obstacles = [{ x: 1.5, z: 13.5, radius: 3.9 }]
 
@@ -250,6 +252,10 @@ try {
     player.position.copyFrom(movementState.position)
     player.rotation.y = movementState.facingRadians
     camera.target.set(player.position.x, 0.7, player.position.z + 4.5)
+    if (performance.now() - lastFpsUpdate > 1000) {
+      lastFpsUpdate = performance.now()
+      fpsLabel.textContent = `${Math.round(engine.getFps())} FPS`
+    }
     if (encounterState === 'exploring' && input.movement.lengthSquared() > 0 && performance.now() - lastPositionSave > 2000) {
       lastPositionSave = performance.now()
       void persistGame()
