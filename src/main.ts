@@ -1,7 +1,9 @@
 import { Engine } from '@babylonjs/core/Engines/engine.js'
 import { registerSW } from 'virtual:pwa-register'
 import { createGrayboxScene } from './game/createGrayboxScene'
+import { solveMovement } from './game/movement'
 import { chooseRenderTier, hardwareScaleFor } from './game/quality'
+import { InputController } from './platform/input'
 import { needsLandscapePrompt } from './platform/orientation'
 import './styles.css'
 
@@ -24,6 +26,9 @@ const rotateScreen = requireElement<HTMLElement>('#rotate-screen')
 const prototypeLabel = requireElement<HTMLElement>('#prototype-label')
 const locationLabel = requireElement<HTMLElement>('#location-label')
 const installButton = requireElement<HTMLButtonElement>('#install-button')
+const touchControls = requireElement<HTMLElement>('#touch-controls')
+const movementPad = requireElement<HTMLElement>('#movement-pad')
+const movementKnob = requireElement<HTMLElement>('#movement-knob')
 
 let installPrompt: InstallPromptEvent | undefined
 
@@ -37,6 +42,7 @@ function viewportShape() {
 
 function updateOrientationPrompt(): void {
   rotateScreen.hidden = !needsLandscapePrompt(viewportShape())
+  touchControls.hidden = !window.matchMedia('(pointer: coarse)').matches
 }
 
 window.addEventListener('beforeinstallprompt', (event) => {
@@ -75,15 +81,27 @@ try {
   engine.setHardwareScalingLevel(hardwareScaleFor(tier, window.devicePixelRatio))
 
   loadingStatus.textContent = 'Building the Mossmere graybox…'
-  const scene = createGrayboxScene(engine)
+  const { scene, camera, player } = createGrayboxScene(engine)
+  const input = new InputController(movementPad, movementKnob)
   await scene.whenReadyAsync()
 
   loadingScreen.hidden = true
   prototypeLabel.hidden = false
   locationLabel.hidden = false
 
-  engine.runRenderLoop(() => scene.render())
+  let movementState = { position: player.position.clone(), facingRadians: 0 }
+  const routeBounds = { minX: -3.2, maxX: 3.2, minZ: -15, maxZ: 10.5 }
+  const obstacles = [{ x: 1.5, z: 13.5, radius: 3.9 }]
+
+  engine.runRenderLoop(() => {
+    movementState = solveMovement(movementState, input.update(), engine.getDeltaTime() / 1000, 5.2, routeBounds, obstacles)
+    player.position.copyFrom(movementState.position)
+    player.rotation.y = movementState.facingRadians
+    camera.target.set(player.position.x, 0.7, player.position.z + 4.5)
+    scene.render()
+  })
   window.addEventListener('resize', () => engine.resize())
+  window.addEventListener('pagehide', () => input.dispose(), { once: true })
 } catch (error) {
   console.error(error)
   loadingScreen.hidden = true
