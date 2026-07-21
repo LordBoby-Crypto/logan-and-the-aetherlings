@@ -18,12 +18,13 @@ describe('Mossmere graybox scene', () => {
       deterministicLockstep: false,
       lockstepMaxSteps: 4,
     })
-    const scene = createGrayboxScene(engine)
+    const { scene, player } = createGrayboxScene(engine)
 
     expect(scene.activeCamera?.name).toBe('exploration-camera')
     expect(scene.getMeshByName('route-ground')).not.toBeNull()
     expect(scene.getMeshByName('logan-graybox')).not.toBeNull()
     expect(scene.getMeshByName('outpost')).not.toBeNull()
+    expect(player.name).toBe('logan-player-root')
     expect(scene.meshes.length).toBeGreaterThan(65)
 
     expect(() => scene.render()).not.toThrow()
