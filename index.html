@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1820" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Logan and the Aetherlings</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="game-canvas" aria-label="Logan and the Aetherlings graybox exploration scene"></canvas>
+
+      <section id="loading-screen" class="system-screen" aria-live="polite">
+        <img src="/aether-mark.svg" alt="" />
+        <h1>Logan and the Aetherlings</h1>
+        <p id="loading-status">Preparing Valewynn…</p>
+      </section>
+
+      <section id="unsupported-screen" class="system-screen" hidden>
+        <h1>WebGL is unavailable</h1>
+        <p>This device or browser cannot start the 3D renderer.</p>
+      </section>
+
+      <section id="rotate-screen" class="system-screen" hidden>
+        <img src="/aether-mark.svg" alt="" />
+        <h1>Turn your phone sideways</h1>
+        <p>Logan and the Aetherlings is designed for landscape play.</p>
+      </section>
+
+      <aside id="prototype-label" aria-label="Build status" hidden>
+        <strong>Preproduction graybox</strong>
+        <span>Temporary geometry · not final art</span>
+      </aside>
+
+      <div id="location-label" hidden>
+        <img src="/aether-mark.svg" alt="" />
+        <span>Mossmere Path</span>
+      </div>
+
+      <button id="install-button" type="button" hidden>Install game</button>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
