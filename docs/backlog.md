@@ -10,5 +10,6 @@
 | B-006 | Implemented | Implement graybox exploration; hosted validation pending |
 | B-007 | Implemented | Wild battle/capture, party placement, sanctuary overflow, and healing |
 | B-008 | Implemented | Versioned IndexedDB saves with validation, migration, backup, and recovery |
-| B-009 | Ready for user testing | Run the hosted 0.0.7 Windows/iPhone playtest handoff |
+| B-009 | User test failed | 0.0.7 battle/capture failed; refresh persistence passed; install/offline remains pending |
 | B-010 | Planned | Supply first MeshyAI brief after scale/budget proof |
+| B-011 | Fixed awaiting retest | BUG-001 defeat recovery, battle labels, and capture-friction repair in 0.0.8 |

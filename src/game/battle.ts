@@ -18,11 +18,15 @@ export interface BattleState {
   message: string
 }
 
+export function canStartBattle(lead: Battler): boolean {
+  return lead.hp > 0
+}
+
 export function createBattle(lead?: Battler): BattleState {
   return {
     ally: lead ? { ...lead } : { name: 'Kivren', level: 5, hp: 34, maxHp: 34, snared: false },
     wild: { name: 'Mirelume', level: 4, hp: 30, maxHp: 30, snared: false },
-    prisms: 3,
+    prisms: 5,
     turn: 1,
     outcome: 'active',
     message: 'A wild Mirelume watches carefully.',
@@ -31,7 +35,7 @@ export function createBattle(lead?: Battler): BattleState {
 
 export function captureChance(wild: Battler): number {
   const missingHealth = 1 - wild.hp / wild.maxHp
-  return Math.min(0.9, 0.12 + missingHealth * 0.58 + (wild.snared ? 0.2 : 0))
+  return Math.min(1, 0.2 + missingHealth * 0.65 + (wild.snared ? 0.2 : 0))
 }
 
 function wildTurn(state: BattleState, random: () => number): BattleState {

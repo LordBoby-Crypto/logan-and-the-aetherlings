@@ -31,7 +31,7 @@
 
       <aside id="prototype-label" aria-label="Build status" hidden>
         <strong>Preproduction graybox</strong>
-        <span>Build 0.0.7 · <b id="fps-label">-- FPS</b></span>
+        <span>Build 0.0.8 · <b id="fps-label">-- FPS</b></span>
         <span>Temporary geometry · not final art</span>
       </aside>
 
@@ -56,16 +56,16 @@
 
       <section id="encounter-screen" aria-live="polite" hidden>
         <div class="battle-shell">
-          <header><span class="eyebrow">Wild encounter · Turn <b id="battle-turn">1</b></span><strong id="prism-count">3 Aether Prisms</strong></header>
+          <header><span class="eyebrow">Wild encounter · Turn <b id="battle-turn">1</b></span><strong id="prism-count">5 Aether Prisms</strong></header>
           <div class="battle-field">
-            <article class="battler wild-battler"><div class="battle-model wild-model">◇</div><div><h2>Mirelume <small>Lv. 4</small></h2><div class="hp-track"><span id="wild-hp-bar"></span></div><p><span id="wild-hp"></span><em id="wild-status">No status</em></p></div></article>
-            <article class="battler ally-battler"><div><h2>Kivren <small>Lv. 5</small></h2><div class="hp-track"><span id="ally-hp-bar"></span></div><p id="ally-hp"></p></div><div class="battle-model ally-model">◆</div></article>
+            <article class="battler wild-battler"><div class="battle-model wild-model">◇</div><div><span class="eyebrow">Wild Aetherling</span><h2>Mirelume <small>Lv. 4</small></h2><div class="hp-track"><span id="wild-hp-bar"></span></div><p><span id="wild-hp"></span><em id="wild-status">No status</em></p></div></article>
+            <article class="battler ally-battler"><div><span class="eyebrow">Your lead</span><h2>Kivren <small>Lv. 5</small></h2><div class="hp-track"><span id="ally-hp-bar"></span></div><p id="ally-hp"></p></div><div class="battle-model ally-model">◆</div></article>
           </div>
           <p id="battle-message" class="battle-message">A wild Mirelume watches carefully.</p>
           <div id="battle-actions" class="battle-actions">
             <button type="button" data-action="pulse-strike"><strong>Pulse Strike</strong><span>Reliable damage</span></button>
             <button type="button" data-action="binding-spore"><strong>Binding Spore</strong><span>Snare · raises capture odds</span></button>
-            <button type="button" class="prism-action" data-action="aether-prism"><strong>△ Aether Prism</strong><span id="capture-odds">12% capture chance</span></button>
+            <button type="button" class="prism-action" data-action="aether-prism"><strong>△ Aether Prism</strong><span id="capture-odds">20% capture chance</span></button>
           </div>
           <button id="return-to-route" type="button" hidden>Return to Mossmere Path</button>
         </div>

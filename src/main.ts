@@ -1,7 +1,7 @@
 import { Engine } from '@babylonjs/core/Engines/engine.js'
 import { registerSW } from 'virtual:pwa-register'
 import { createGrayboxScene } from './game/createGrayboxScene'
-import { captureChance, createBattle, takeBattleAction, type BattleAction, type BattleState } from './game/battle'
+import { canStartBattle, captureChance, createBattle, takeBattleAction, type BattleAction, type BattleState } from './game/battle'
 import { finishTransition, leaveEncounter, startEncounter, type EncounterState } from './game/encounterState'
 import { isInteractionAvailable } from './game/interaction'
 import { createParty, healParty, placeCapture, updateLead, type PartyState } from './game/party'
@@ -195,6 +195,11 @@ try {
   }
 
   const showBattle = (): void => {
+    if (!canStartBattle(partyState.members[0])) {
+      encounterState = leaveEncounter()
+      showToast('Kivren cannot battle. Restore your party at the teal crystal.')
+      return
+    }
     encounterState = finishTransition(encounterState)
     battleState = createBattle(partyState.members[0])
     renderBattle()
@@ -217,6 +222,11 @@ try {
       encounterCaptured = true
       encounterTarget.setEnabled(false)
       showToast('Mirelume was placed in your party.')
+    } else if (battleState.outcome === 'defeat') {
+      partyState = healParty(partyState)
+      player.position.set(0, player.position.y, -7)
+      movementState.position.copyFrom(player.position)
+      showToast('Kivren recovered safely at Mossmere Outpost.')
     }
     renderParty()
     encounterState = leaveEncounter()
@@ -240,6 +250,10 @@ try {
         renderParty()
         showToast('Your party is fully restored.')
         void persistGame()
+        return
+      }
+      if (!canStartBattle(partyState.members[0])) {
+        showToast('Kivren cannot battle. Restore your party at the teal crystal.')
         return
       }
       encounterState = startEncounter(encounterState)

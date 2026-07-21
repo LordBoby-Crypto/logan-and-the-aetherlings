@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { captureChance, createBattle, takeBattleAction } from './battle'
+import { canStartBattle, captureChance, createBattle, takeBattleAction } from './battle'
 
 describe('battle prototype', () => {
   it('never knocks out a capturable wild Aetherling', () => {
@@ -14,13 +14,28 @@ describe('battle prototype', () => {
     expect(captureChance(weakened)).toBeGreaterThan(captureChance(healthy))
   })
 
+  it('prevents a defeated lead from entering another encounter', () => {
+    const lead = createBattle().ally
+    expect(canStartBattle({ ...lead, hp: 0 })).toBe(false)
+    expect(canStartBattle({ ...lead, hp: 1 })).toBe(true)
+  })
+
+  it('starts each encounter with five Aether Prisms', () => {
+    expect(createBattle().prisms).toBe(5)
+  })
+
+  it('guarantees capture after weakening to 1 HP and applying Snare', () => {
+    const wild = { ...createBattle().wild, hp: 1, snared: true }
+    expect(captureChance(wild)).toBe(1)
+  })
+
   it('captures when the roll is below the calculated chance', () => {
     const state = createBattle()
     state.wild.hp = 1
     state.wild.snared = true
     const result = takeBattleAction(state, 'aether-prism', () => 0.1)
     expect(result.outcome).toBe('captured')
-    expect(result.prisms).toBe(2)
+    expect(result.prisms).toBe(4)
   })
 
   it('allows the wild Aetherling to answer a failed capture', () => {
