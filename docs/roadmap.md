@@ -7,8 +7,8 @@ Preproduction. Detailed stages are in `concept/preproduction-roadmap.md`.
 ## Milestone states
 
 - Concept greenlight: Verified.
-- Technical foundation: In progress.
-- Graybox exploration: Planned.
+- Technical foundation: Implemented; hosted visual/device verification pending.
+- Graybox exploration: In progress.
 - Core battle/capture prototype: Planned.
 - Save/PWA reliability: Planned.
 - Visual/audio target: Planned.
