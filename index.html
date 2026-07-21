@@ -42,11 +42,19 @@
       <div id="interaction-prompt" hidden><kbd>E</kbd><span>Approach wild Aetherling</span></div>
 
       <section id="encounter-screen" aria-live="polite" hidden>
-        <div class="encounter-card">
-          <span class="eyebrow">Wild encounter</span>
-          <h2>An unknown Aetherling appeared!</h2>
-          <p>This is the battle transition staging area. Combat and Aether Prism capture arrive in the next slice.</p>
-          <button id="return-to-route" type="button">Return to Mossmere Path</button>
+        <div class="battle-shell">
+          <header><span class="eyebrow">Wild encounter · Turn <b id="battle-turn">1</b></span><strong id="prism-count">3 Aether Prisms</strong></header>
+          <div class="battle-field">
+            <article class="battler wild-battler"><div class="battle-model wild-model">◇</div><div><h2>Mirelume <small>Lv. 4</small></h2><div class="hp-track"><span id="wild-hp-bar"></span></div><p><span id="wild-hp"></span><em id="wild-status">No status</em></p></div></article>
+            <article class="battler ally-battler"><div><h2>Kivren <small>Lv. 5</small></h2><div class="hp-track"><span id="ally-hp-bar"></span></div><p id="ally-hp"></p></div><div class="battle-model ally-model">◆</div></article>
+          </div>
+          <p id="battle-message" class="battle-message">A wild Mirelume watches carefully.</p>
+          <div id="battle-actions" class="battle-actions">
+            <button type="button" data-action="pulse-strike"><strong>Pulse Strike</strong><span>Reliable damage</span></button>
+            <button type="button" data-action="binding-spore"><strong>Binding Spore</strong><span>Snare · raises capture odds</span></button>
+            <button type="button" class="prism-action" data-action="aether-prism"><strong>△ Aether Prism</strong><span id="capture-odds">12% capture chance</span></button>
+          </div>
+          <button id="return-to-route" type="button" hidden>Return to Mossmere Path</button>
         </div>
       </section>
 

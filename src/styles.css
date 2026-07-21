@@ -157,10 +157,28 @@ button { font: inherit; }
   animation: encounter-arrive 420ms ease-out;
 }
 #encounter-screen[hidden] { display: none; }
-.encounter-card { max-width: 36rem; padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid #e8d29d; border-radius: 1rem; text-align: center; background: #0b1820; box-shadow: 0 24px 80px #000; }
-.encounter-card h2 { margin: 0.45rem 0 0.8rem; font: 700 clamp(1.8rem, 4vw, 3.2rem)/1.05 Georgia, serif; }
-.encounter-card p { color: #b9c9c7; line-height: 1.5; }
-.encounter-card button { min-height: 44px; padding: 0.7rem 1rem; border: 0; border-radius: 0.6rem; background: #e8d29d; color: #0b1820; font-weight: 750; cursor: pointer; }
+.battle-shell { width: min(64rem, 96vw); max-height: 96vh; overflow: auto; padding: clamp(1rem, 2.5vw, 2rem); border: 1px solid #e8d29d; border-radius: 1rem; background: #0b1820; box-shadow: 0 24px 80px #000; }
+.battle-shell header { display: flex; justify-content: space-between; gap: 1rem; }
+.battle-field { display: grid; grid-template-columns: 1fr 1fr; align-items: center; min-height: 14rem; margin: 0.7rem 0; border-radius: 0.8rem; background: linear-gradient(155deg, #183943, #15291f); overflow: hidden; }
+.battler { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1rem; }
+.battler h2 { margin: 0 0 0.45rem; font: 700 clamp(1.25rem, 3vw, 2rem)/1 Georgia, serif; }
+.battler small { color: #b9c9c7; font: 600 0.75rem/1 system-ui; }
+.battler p { display: flex; justify-content: space-between; gap: 0.7rem; margin: 0.35rem 0 0; color: #b9c9c7; font-size: 0.75rem; }
+.battler em { color: #e8d29d; font-style: normal; }
+.battle-model { display: grid; place-items: center; width: clamp(5rem, 12vw, 8rem); aspect-ratio: 1; font-size: clamp(3rem, 8vw, 6rem); filter: drop-shadow(0 12px 12px rgb(0 0 0 / 35%)); }
+.wild-model { color: #b66ee0; }
+.ally-model { color: #27c5d9; }
+.hp-track { width: clamp(7rem, 17vw, 13rem); height: 0.65rem; border-radius: 1rem; background: #071016; overflow: hidden; }
+.hp-track span { display: block; height: 100%; border-radius: inherit; background: #5bd184; transition: width 260ms ease; }
+.battle-message { min-height: 1.5em; margin: 0.8rem 0; text-align: center; color: #f4eddc; font-weight: 650; }
+.battle-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; }
+.battle-actions[hidden] { display: none; }
+.battle-actions button, #return-to-route { min-height: 56px; padding: 0.65rem; border: 1px solid rgb(232 210 157 / 55%); border-radius: 0.6rem; color: #f4eddc; background: #17303a; cursor: pointer; }
+.battle-actions button { display: grid; gap: 0.2rem; text-align: left; }
+.battle-actions button span { color: #b9c9c7; font-size: 0.72rem; }
+.battle-actions .prism-action { border-color: #27c5d9; background: #133945; }
+#return-to-route { display: block; margin: 0.8rem auto 0; color: #0b1820; background: #e8d29d; font-weight: 750; }
+#return-to-route[hidden] { display: none; }
 .eyebrow { color: #27c5d9; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
 @keyframes encounter-arrive { from { opacity: 0; transform: scale(1.04); } }
 
@@ -231,6 +249,15 @@ button { font: inherit; }
   #prototype-label span { display: none; }
   #movement-pad { width: 6.75rem; }
   #interact-button { width: 5.75rem; }
+  .battle-field { min-height: 8rem; }
+  .battle-model { width: 4.5rem; font-size: 3rem; }
+  .battle-actions button, #return-to-route { min-height: 44px; }
+}
+
+@media (max-width: 700px) {
+  .battle-field { min-height: 9rem; }
+  .battler { gap: 0.4rem; padding: 0.6rem; }
+  .battle-actions { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

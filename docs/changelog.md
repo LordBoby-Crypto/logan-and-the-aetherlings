@@ -10,3 +10,4 @@
 - Implemented version 0.0.1 technical foundation with Babylon.js graybox rendering, PWA installation/update behavior, responsive system screens, landscape-phone policy, automated checks, and CI.
 - Implemented version 0.0.2 graybox exploration controls with keyboard/touch movement, camera following, route bounds, obstacle collision/sliding, and lifecycle-safe input reset.
 - Implemented version 0.0.3 contextual wild interaction and the exploration-to-battle staging seam with keyboard/touch activation, movement locking, and repeatable return-to-route flow.
+- Implemented version 0.0.4 wild turn-based battle and tactical Aether Prism capture with health, Snare, visible odds, limited inventory, counter-turns, defeat, and capture completion.

@@ -3,11 +3,11 @@ import { finishTransition, leaveEncounter, startEncounter } from './encounterSta
 
 describe('encounter state', () => {
   it('moves through the route-to-battle seam', () => {
-    expect(finishTransition(startEncounter('exploring'))).toBe('battle-staging')
+    expect(finishTransition(startEncounter('exploring'))).toBe('battle')
     expect(leaveEncounter()).toBe('exploring')
   })
 
   it('does not restart an active encounter', () => {
-    expect(startEncounter('battle-staging')).toBe('battle-staging')
+    expect(startEncounter('battle')).toBe('battle')
   })
 })

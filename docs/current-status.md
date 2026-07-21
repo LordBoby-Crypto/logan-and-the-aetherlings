@@ -1,8 +1,8 @@
 # Current Status
 
 - Date: 2026-07-21
-- Current build: 0.0.3 interaction and encounter transition; not deployed
-- Current milestone: Preproduction — graybox exploration
+- Current build: 0.0.4 battle and capture prototype; not deployed
+- Current milestone: Preproduction — core battle/capture loop
 - Approval source: `decisions/DEC-001-concept-greenlight.md`
 
 ## Completed
@@ -13,12 +13,13 @@
 - Responsive shell, orientation policy, install/update handling, disposable Mossmere graybox, automated checks, and CI workflow implemented.
 - WASD/arrow movement, touch joystick, camera following, bounded movement, obstacle collision/sliding, and input lifecycle recovery implemented.
 - Contextual wild interaction and the repeatable route-to-battle staging seam implemented.
+- Turn-based damage/status choices, visible capture odds, limited Aether Prisms, counter-turns, defeat, and capture implemented.
 
 ## Verification
 
 - Recovered greenlight package passed validation with no errors or warnings.
 - Continuity audit found all required record classes with no conflicts.
-- `npm run check` passed lint, 6 test files/15 tests, TypeScript compilation, production build, and PWA generation.
+- `npm run check` passed lint, 7 test files/19 tests, TypeScript compilation, production build, and PWA generation.
 - Headless Babylon scene construction/render and production HTTP/PWA smoke checks passed.
 - Hosted visual and real-device checks have not run.
 
@@ -29,4 +30,4 @@
 
 ## Next task
 
-Implement the first turn-based battle and Aether Prism capture prototype.
+Implement party placement and healing after capture, then versioned local saves.

@@ -8,7 +8,7 @@
 | B-004 | Implemented | Build rendering and responsive input shell |
 | B-005 | Verified | Produce and approve visual target |
 | B-006 | Implemented | Implement graybox exploration; hosted validation pending |
-| B-007 | Planned | Implement battle and Aether Prism capture |
+| B-007 | In progress | Wild battle/capture implemented; party placement and healing pending |
 | B-008 | Planned | Implement versioned local saves |
 | B-009 | Planned | Issue exact playtest handoff |
 | B-010 | Planned | Supply first MeshyAI brief after scale/budget proof |

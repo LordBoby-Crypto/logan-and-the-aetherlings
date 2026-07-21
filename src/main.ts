@@ -1,6 +1,7 @@
 import { Engine } from '@babylonjs/core/Engines/engine.js'
 import { registerSW } from 'virtual:pwa-register'
 import { createGrayboxScene } from './game/createGrayboxScene'
+import { captureChance, createBattle, takeBattleAction, type BattleAction, type BattleState } from './game/battle'
 import { finishTransition, leaveEncounter, startEncounter, type EncounterState } from './game/encounterState'
 import { isInteractionAvailable } from './game/interaction'
 import { solveMovement } from './game/movement'
@@ -35,6 +36,16 @@ const interactButton = requireElement<HTMLButtonElement>('#interact-button')
 const interactionPrompt = requireElement<HTMLElement>('#interaction-prompt')
 const encounterScreen = requireElement<HTMLElement>('#encounter-screen')
 const returnToRoute = requireElement<HTMLButtonElement>('#return-to-route')
+const battleActions = requireElement<HTMLElement>('#battle-actions')
+const battleMessage = requireElement<HTMLElement>('#battle-message')
+const battleTurn = requireElement<HTMLElement>('#battle-turn')
+const prismCount = requireElement<HTMLElement>('#prism-count')
+const allyHp = requireElement<HTMLElement>('#ally-hp')
+const wildHp = requireElement<HTMLElement>('#wild-hp')
+const allyHpBar = requireElement<HTMLElement>('#ally-hp-bar')
+const wildHpBar = requireElement<HTMLElement>('#wild-hp-bar')
+const wildStatus = requireElement<HTMLElement>('#wild-status')
+const captureOdds = requireElement<HTMLElement>('#capture-odds')
 
 let installPrompt: InstallPromptEvent | undefined
 
@@ -98,17 +109,44 @@ try {
   let movementState = { position: player.position.clone(), facingRadians: 0 }
   let encounterState: EncounterState = 'exploring'
   let transitionTimer: number | undefined
+  let battleState: BattleState = createBattle()
   const routeBounds = { minX: -3.2, maxX: 3.2, minZ: -15, maxZ: 10.5 }
   const obstacles = [{ x: 1.5, z: 13.5, radius: 3.9 }]
 
-  const showBattleStaging = (): void => {
+  const renderBattle = (): void => {
+    battleTurn.textContent = String(battleState.turn)
+    prismCount.textContent = `${battleState.prisms} Aether Prism${battleState.prisms === 1 ? '' : 's'}`
+    allyHp.textContent = `${battleState.ally.hp} / ${battleState.ally.maxHp} HP`
+    wildHp.textContent = `${battleState.wild.hp} / ${battleState.wild.maxHp} HP`
+    allyHpBar.style.width = `${battleState.ally.hp / battleState.ally.maxHp * 100}%`
+    wildHpBar.style.width = `${battleState.wild.hp / battleState.wild.maxHp * 100}%`
+    wildStatus.textContent = battleState.wild.snared ? 'Snared' : 'No status'
+    captureOdds.textContent = `${Math.round(captureChance(battleState.wild) * 100)}% capture chance`
+    battleMessage.textContent = battleState.message
+    const finished = battleState.outcome !== 'active'
+    battleActions.hidden = finished
+    returnToRoute.hidden = !finished
+    returnToRoute.textContent = battleState.outcome === 'captured' ? 'Continue with Mirelume' : 'Return to Mossmere Path'
+  }
+
+  const showBattle = (): void => {
     encounterState = finishTransition(encounterState)
+    battleState = createBattle()
+    renderBattle()
     encounterScreen.hidden = false
     interactionPrompt.hidden = true
     interactButton.disabled = true
   }
 
+  battleActions.addEventListener('click', (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button[data-action]')
+    if (!button || battleState.outcome !== 'active') return
+    battleState = takeBattleAction(battleState, button.dataset.action as BattleAction)
+    renderBattle()
+  })
+
   returnToRoute.addEventListener('click', () => {
+    if (battleState.outcome === 'captured') encounterTarget.setEnabled(false)
     encounterState = leaveEncounter()
     encounterScreen.hidden = true
   })
@@ -122,7 +160,7 @@ try {
     if (canInteract && interactionRequested) {
       encounterState = startEncounter(encounterState)
       interactionPrompt.hidden = true
-      transitionTimer = window.setTimeout(showBattleStaging, 360)
+      transitionTimer = window.setTimeout(showBattle, 360)
     }
 
     const movementInput = encounterState === 'exploring' ? input.update() : input.movement.set(0, 0)
