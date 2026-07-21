@@ -125,6 +125,7 @@ Manual fallback: Retest 1 below verifies the integrated route-to-battle lifecycl
 
 - `npm run check` on 0.0.8: PASS — lint, 10 test files/30 tests, TypeScript, production and PWA generation.
 - GitHub CI and Pages deployment for repair revision `ff2f353a650c7c8ccd94fbf44161dc24ac10d868`: PASS; public HTML reports Build 0.0.8 and the manifest returns HTTP 200.
+- GitHub CI and Pages deployment for isolation revision `7f4deb999821fc5560c28fd457d7291698434347`: PASS; public HTML reports Build 0.0.9 and the manifest returns HTTP 200.
 - Runtime WebGL smoke: BLOCKED in cloud browser because WebGL is unavailable; public deployment and target-device path must be confirmed after publish.
 - Pre-existing bundle warning remains separate (about 861 kB minified/202 kB gzip).
 

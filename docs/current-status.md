@@ -1,7 +1,7 @@
 # Current Status
 
 - Date: 2026-07-21
-- Current build: 0.0.9 BUG-001 state-isolation repair; deployment pending
+- Current build: 0.0.9 BUG-001 state-isolation repair; deployed to GitHub Pages
 - Current milestone: Preproduction — save/PWA reliability
 - Approval source: `decisions/DEC-001-concept-greenlight.md`
 
@@ -27,6 +27,7 @@
 - Headless Babylon scene construction/render and production HTTP/PWA smoke checks passed.
 - Public HTTPS index, scoped assets, manifest, CI, and Pages deployment passed. Cloud 3D launch is blocked by unavailable WebGL; owner Windows/iPhone tests are pending under `playtests/0.0.7-handoff.md`.
 - Version 0.0.8 CI, Pages deployment, public HTML version label, and manifest HTTP response passed; focused BUG-001 owner retest is in `playtests/0.0.8-bug-001-retest.md`.
+- Version 0.0.9 passed CI, Pages deployment, public HTML version verification, manifest response, 33 automated tests, and both record validators; focused owner retest is in `playtests/0.0.9-bug-001-retest.md`.
 
 ## Known issues
 
@@ -36,4 +37,4 @@
 
 ## Next task
 
-Deploy 0.0.9 and complete the focused BUG-001 wild-state/crystal-isolation retest; install/offline testing remains pending.
+Complete the focused BUG-001 wild-state/crystal-isolation retest on deployed 0.0.9; install/offline testing remains pending.
