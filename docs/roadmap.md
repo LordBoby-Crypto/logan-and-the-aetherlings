@@ -8,7 +8,7 @@ Preproduction. Detailed stages are in `concept/preproduction-roadmap.md`.
 
 - Concept greenlight: Verified.
 - Technical foundation: Implemented; hosted visual/device verification pending.
-- Graybox exploration: In progress.
+- Graybox exploration: In progress; movement/control slice implemented, interaction/transitions pending.
 - Core battle/capture prototype: Planned.
 - Save/PWA reliability: Planned.
 - Visual/audio target: Planned.
