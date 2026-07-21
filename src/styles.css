@@ -1,0 +1,145 @@
+:root {
+  color: #f4eddc;
+  background: #0b1820;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body { overscroll-behavior: none; }
+
+button { font: inherit; }
+
+#app {
+  position: relative;
+  background: #0b1820;
+  isolation: isolate;
+}
+
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  touch-action: none;
+}
+
+.system-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.8rem;
+  padding: max(2rem, env(safe-area-inset-top)) max(2rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(2rem, env(safe-area-inset-left));
+  text-align: center;
+  background: radial-gradient(circle at 50% 38%, #163745 0, #0b1820 52%, #071016 100%);
+}
+
+.system-screen[hidden] { display: none; }
+
+.system-screen img { width: clamp(5rem, 11vw, 8rem); }
+
+.system-screen h1 {
+  max-width: 18ch;
+  margin: 0;
+  color: #f4eddc;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 1.02;
+}
+
+.system-screen p {
+  max-width: 36rem;
+  margin: 0;
+  color: #b9c9c7;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+}
+
+#rotate-screen { z-index: 40; }
+
+#prototype-label,
+#location-label {
+  position: absolute;
+  z-index: 10;
+  border: 1px solid rgb(232 210 157 / 40%);
+  color: #f4eddc;
+  background: rgb(7 16 22 / 78%);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 24%);
+}
+
+#prototype-label[hidden],
+#location-label[hidden],
+#install-button[hidden] { display: none; }
+
+#prototype-label {
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.65rem;
+  font-size: 0.82rem;
+}
+
+#prototype-label span { color: #a9b8b7; }
+
+#location-label {
+  top: max(1rem, env(safe-area-inset-top));
+  left: max(1rem, env(safe-area-inset-left));
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.65rem 1rem 0.65rem 0.7rem;
+  border-radius: 0.7rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1rem, 2vw, 1.45rem);
+  font-weight: 700;
+}
+
+#location-label img { width: 2rem; height: 2rem; }
+
+#install-button {
+  position: absolute;
+  z-index: 12;
+  right: max(1rem, env(safe-area-inset-right));
+  top: max(1rem, env(safe-area-inset-top));
+  min-height: 44px;
+  padding: 0.7rem 1rem;
+  border: 1px solid #e8d29d;
+  border-radius: 0.65rem;
+  color: #0b1820;
+  background: #e8d29d;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+#install-button:focus-visible { outline: 3px solid #27c5d9; outline-offset: 3px; }
+
+@media (max-height: 500px) {
+  #prototype-label { font-size: 0.72rem; }
+  #prototype-label span { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
