@@ -1,7 +1,7 @@
 # Current Status
 
 - Date: 2026-07-21
-- Current build: 0.0.8 BUG-001 repair; deployment pending
+- Current build: 0.0.8 BUG-001 repair; deployed to GitHub Pages
 - Current milestone: Preproduction — save/PWA reliability
 - Approval source: `decisions/DEC-001-concept-greenlight.md`
 
@@ -25,6 +25,7 @@
 - `npm run check` passed lint, 10 test files/30 tests, TypeScript compilation, production build, and PWA generation.
 - Headless Babylon scene construction/render and production HTTP/PWA smoke checks passed.
 - Public HTTPS index, scoped assets, manifest, CI, and Pages deployment passed. Cloud 3D launch is blocked by unavailable WebGL; owner Windows/iPhone tests are pending under `playtests/0.0.7-handoff.md`.
+- Version 0.0.8 CI, Pages deployment, public HTML version label, and manifest HTTP response passed; focused BUG-001 owner retest is in `playtests/0.0.8-bug-001-retest.md`.
 
 ## Known issues
 
@@ -34,4 +35,4 @@
 
 ## Next task
 
-Deploy 0.0.8 and complete the focused BUG-001 Windows retest; install/offline testing remains pending by owner choice.
+Complete the focused BUG-001 Windows retest on deployed 0.0.8; install/offline testing remains pending by owner choice.
