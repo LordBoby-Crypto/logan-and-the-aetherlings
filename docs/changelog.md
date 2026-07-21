@@ -8,3 +8,4 @@
 - Recovered and revalidated the approved package after transient workspace maintenance.
 - Approved the exploration and battle visual direction.
 - Implemented version 0.0.1 technical foundation with Babylon.js graybox rendering, PWA installation/update behavior, responsive system screens, landscape-phone policy, automated checks, and CI.
+- Implemented version 0.0.2 graybox exploration controls with keyboard/touch movement, camera following, route bounds, obstacle collision/sliding, and lifecycle-safe input reset.
