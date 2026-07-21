@@ -21,6 +21,7 @@ export interface GrayboxSceneContext {
   camera: ArcRotateCamera
   player: TransformNode
   encounterTarget: TransformNode
+  healingStation: TransformNode
 }
 
 function material(scene: Scene, name: string, color: Color3): StandardMaterial {
@@ -102,7 +103,8 @@ export function createGrayboxScene(engine: Engine): GrayboxSceneContext {
   }
 
   addCrystal(scene, new Vector3(-5.7, 1.2, -5), tealMaterial)
-  addCrystal(scene, new Vector3(6.2, 1.15, 7.2), tealMaterial)
+  const healingStation = addCrystal(scene, new Vector3(2.5, 1.15, 7.2), tealMaterial)
+  healingStation.name = 'mossmere-healing-crystal'
   addCrystal(scene, new Vector3(-7.8, 0.9, 11.5), tealMaterial)
 
   const outpost = CreateCylinder('outpost', { height: 3.4, diameter: 7, tessellation: 8 }, scene)
@@ -139,5 +141,5 @@ export function createGrayboxScene(engine: Engine): GrayboxSceneContext {
   wildCrest.material = tealMaterial
 
   scene.activeCamera = camera
-  return { scene, camera, player, encounterTarget }
+  return { scene, camera, player, encounterTarget, healingStation }
 }

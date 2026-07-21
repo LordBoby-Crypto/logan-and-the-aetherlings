@@ -1,7 +1,7 @@
 # Current Status
 
 - Date: 2026-07-21
-- Current build: 0.0.4 battle and capture prototype; not deployed
+- Current build: 0.0.5 party placement and healing; not deployed
 - Current milestone: Preproduction — core battle/capture loop
 - Approval source: `decisions/DEC-001-concept-greenlight.md`
 
@@ -14,12 +14,13 @@
 - WASD/arrow movement, touch joystick, camera following, bounded movement, obstacle collision/sliding, and input lifecycle recovery implemented.
 - Contextual wild interaction and the repeatable route-to-battle staging seam implemented.
 - Turn-based damage/status choices, visible capture odds, limited Aether Prisms, counter-turns, defeat, and capture implemented.
+- Three-slot party placement, sanctuary overflow rules, battle-damage carryover, party UI, and in-world healing implemented.
 
 ## Verification
 
 - Recovered greenlight package passed validation with no errors or warnings.
 - Continuity audit found all required record classes with no conflicts.
-- `npm run check` passed lint, 7 test files/19 tests, TypeScript compilation, production build, and PWA generation.
+- `npm run check` passed lint, 8 test files/22 tests, TypeScript compilation, production build, and PWA generation.
 - Headless Babylon scene construction/render and production HTTP/PWA smoke checks passed.
 - Hosted visual and real-device checks have not run.
 
@@ -30,4 +31,4 @@
 
 ## Next task
 
-Implement party placement and healing after capture, then versioned local saves.
+Implement validated, versioned local saves with recovery behavior.

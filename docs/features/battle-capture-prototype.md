@@ -23,7 +23,7 @@ Approval source: the user-approved game design and preproduction roadmap (`../co
 
 ## Deferred
 
-Party management, healing, switching, affinities, abilities, experience, final balance, animation, audio, and production creature assets.
+Switching, affinities, abilities, experience, final balance, animation, audio, and production creature assets. Party placement and healing were delivered in FEAT-005.
 
 ## Out of scope
 

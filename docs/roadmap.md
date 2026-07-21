@@ -9,7 +9,7 @@ Preproduction. Detailed stages are in `concept/preproduction-roadmap.md`.
 - Concept greenlight: Verified.
 - Technical foundation: Implemented; hosted visual/device verification pending.
 - Graybox exploration: Implemented; hosted visual/device verification pending.
-- Core battle/capture prototype: In progress; first wild battle and capture implemented, party/healing pending.
+- Core battle/capture prototype: Implemented; hosted balance/device verification pending.
 - Save/PWA reliability: Planned.
 - Visual/audio target: Planned.
 - MeshyAI pipeline proof: Planned.

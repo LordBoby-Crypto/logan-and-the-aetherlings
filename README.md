@@ -4,7 +4,7 @@ An original, family-friendly 3D creature-collecting RPG for Windows browsers and
 
 ## Project status
 
-Approved for preproduction on 2026-07-21. Version 0.0.4 contains the browser/PWA foundation, disposable Mossmere exploration graybox, contextual wild interaction, and the first turn-based battle with tactical Aether Prism capture. Party management, healing, and saves are next.
+Approved for preproduction on 2026-07-21. Version 0.0.5 contains the browser/PWA foundation, Mossmere exploration graybox, wild battle and tactical Aether Prism capture, captured-party placement, a party screen, and in-world healing. Versioned local saves are next.
 
 ## Approved direction
 

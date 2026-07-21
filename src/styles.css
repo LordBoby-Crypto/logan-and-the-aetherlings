@@ -146,6 +146,26 @@ button { font: inherit; }
 #interaction-prompt[hidden] { display: none; }
 #interaction-prompt kbd { padding: 0.2rem 0.45rem; border: 1px solid #e8d29d; border-radius: 0.3rem; color: #27c5d9; }
 
+#party-button { position: absolute; z-index: 12; top: max(4.8rem, calc(env(safe-area-inset-top) + 4rem)); left: max(1rem, env(safe-area-inset-left)); min-height: 44px; padding: 0.55rem 0.8rem; border: 1px solid rgb(232 210 157 / 55%); border-radius: 0.6rem; color: #f4eddc; background: rgb(7 16 22 / 84%); cursor: pointer; }
+#party-button[hidden] { display: none; }
+#party-button span { margin-left: 0.4rem; color: #27c5d9; }
+.panel-screen { position: absolute; inset: 0; z-index: 17; display: grid; place-items: center; padding: 1rem; background: rgb(7 16 22 / 82%); backdrop-filter: blur(8px); }
+.panel-screen[hidden] { display: none; }
+.party-card { width: min(38rem, 94vw); padding: 1.2rem; border: 1px solid #e8d29d; border-radius: 0.9rem; background: #0b1820; box-shadow: 0 22px 70px #000; }
+.party-card header { display: flex; align-items: start; justify-content: space-between; }
+.party-card h2 { margin: 0.15rem 0 0.8rem; font: 700 2rem/1 Georgia, serif; }
+#close-party { width: 44px; height: 44px; border: 1px solid #597078; border-radius: 50%; color: #f4eddc; background: #17303a; font-size: 1.5rem; cursor: pointer; }
+.party-members { display: grid; gap: 0.55rem; }
+.party-members article { display: grid; grid-template-columns: 3.4rem 1fr auto; align-items: center; gap: 0.55rem; padding: 0.75rem; border-radius: 0.6rem; background: #142b34; }
+.party-members article > span { color: #27c5d9; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+.party-members strong small { color: #b9c9c7; }
+.party-members em { color: #b9c9c7; font-size: 0.75rem; font-style: normal; }
+.party-hp { grid-column: 2 / 4; height: 0.45rem; border-radius: 1rem; background: #071016; overflow: hidden; }
+.party-hp i { display: block; height: 100%; background: #5bd184; }
+.party-help, #sanctuary-count { color: #b9c9c7; font-size: 0.82rem; }
+#game-toast { position: absolute; z-index: 30; top: max(1rem, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); padding: 0.7rem 1rem; border: 1px solid #27c5d9; border-radius: 0.6rem; color: #f4eddc; background: #0b1820; box-shadow: 0 12px 35px #000; }
+#game-toast[hidden] { display: none; }
+
 #encounter-screen {
   position: absolute;
   inset: 0;

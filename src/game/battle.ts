@@ -18,9 +18,9 @@ export interface BattleState {
   message: string
 }
 
-export function createBattle(): BattleState {
+export function createBattle(lead?: Battler): BattleState {
   return {
-    ally: { name: 'Kivren', level: 5, hp: 34, maxHp: 34, snared: false },
+    ally: lead ? { ...lead } : { name: 'Kivren', level: 5, hp: 34, maxHp: 34, snared: false },
     wild: { name: 'Mirelume', level: 4, hp: 30, maxHp: 30, snared: false },
     prisms: 3,
     turn: 1,

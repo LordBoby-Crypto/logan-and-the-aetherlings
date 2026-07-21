@@ -4,6 +4,7 @@ import { createGrayboxScene } from './game/createGrayboxScene'
 import { captureChance, createBattle, takeBattleAction, type BattleAction, type BattleState } from './game/battle'
 import { finishTransition, leaveEncounter, startEncounter, type EncounterState } from './game/encounterState'
 import { isInteractionAvailable } from './game/interaction'
+import { createParty, healParty, placeCapture, updateLead, type PartyState } from './game/party'
 import { solveMovement } from './game/movement'
 import { chooseRenderTier, hardwareScaleFor } from './game/quality'
 import { InputController } from './platform/input'
@@ -46,6 +47,14 @@ const allyHpBar = requireElement<HTMLElement>('#ally-hp-bar')
 const wildHpBar = requireElement<HTMLElement>('#wild-hp-bar')
 const wildStatus = requireElement<HTMLElement>('#wild-status')
 const captureOdds = requireElement<HTMLElement>('#capture-odds')
+const interactionPromptText = requireElement<HTMLElement>('#interaction-prompt span')
+const partyButton = requireElement<HTMLButtonElement>('#party-button')
+const partyCount = requireElement<HTMLElement>('#party-count')
+const partyScreen = requireElement<HTMLElement>('#party-screen')
+const closeParty = requireElement<HTMLButtonElement>('#close-party')
+const partyMembers = requireElement<HTMLElement>('#party-members')
+const sanctuaryCount = requireElement<HTMLElement>('#sanctuary-count')
+const gameToast = requireElement<HTMLElement>('#game-toast')
 
 let installPrompt: InstallPromptEvent | undefined
 
@@ -98,7 +107,7 @@ try {
   engine.setHardwareScalingLevel(hardwareScaleFor(tier, window.devicePixelRatio))
 
   loadingStatus.textContent = 'Building the Mossmere graybox…'
-  const { scene, camera, player, encounterTarget } = createGrayboxScene(engine)
+  const { scene, camera, player, encounterTarget, healingStation } = createGrayboxScene(engine)
   const input = new InputController(movementPad, movementKnob, interactButton)
   await scene.whenReadyAsync()
 
@@ -110,8 +119,30 @@ try {
   let encounterState: EncounterState = 'exploring'
   let transitionTimer: number | undefined
   let battleState: BattleState = createBattle()
+  let partyState: PartyState = createParty()
+  let toastTimer: number | undefined
   const routeBounds = { minX: -3.2, maxX: 3.2, minZ: -15, maxZ: 10.5 }
   const obstacles = [{ x: 1.5, z: 13.5, radius: 3.9 }]
+
+  const renderParty = (): void => {
+    partyCount.textContent = `${partyState.members.length} / ${partyState.capacity}`
+    sanctuaryCount.textContent = `Sanctuary: ${partyState.sanctuary.length} Aetherling${partyState.sanctuary.length === 1 ? '' : 's'}`
+    partyMembers.replaceChildren(...partyState.members.map((member, index) => {
+      const card = document.createElement('article')
+      card.innerHTML = `<span>${index === 0 ? 'Lead' : `Slot ${index + 1}`}</span><strong>${member.name} <small>Lv. ${member.level}</small></strong><div class="party-hp"><i style="width:${member.hp / member.maxHp * 100}%"></i></div><em>${member.hp} / ${member.maxHp} HP</em>`
+      return card
+    }))
+  }
+
+  const showToast = (message: string): void => {
+    gameToast.textContent = message
+    gameToast.hidden = false
+    if (toastTimer !== undefined) window.clearTimeout(toastTimer)
+    toastTimer = window.setTimeout(() => { gameToast.hidden = true }, 2200)
+  }
+
+  partyButton.addEventListener('click', () => { renderParty(); partyScreen.hidden = false })
+  closeParty.addEventListener('click', () => { partyScreen.hidden = true })
 
   const renderBattle = (): void => {
     battleTurn.textContent = String(battleState.turn)
@@ -131,7 +162,7 @@ try {
 
   const showBattle = (): void => {
     encounterState = finishTransition(encounterState)
-    battleState = createBattle()
+    battleState = createBattle(partyState.members[0])
     renderBattle()
     encounterScreen.hidden = false
     interactionPrompt.hidden = true
@@ -146,18 +177,34 @@ try {
   })
 
   returnToRoute.addEventListener('click', () => {
-    if (battleState.outcome === 'captured') encounterTarget.setEnabled(false)
+    partyState = updateLead(partyState, battleState.ally)
+    if (battleState.outcome === 'captured') {
+      partyState = placeCapture(partyState, battleState.wild)
+      encounterTarget.setEnabled(false)
+      showToast('Mirelume was placed in your party.')
+    }
+    renderParty()
     encounterState = leaveEncounter()
     encounterScreen.hidden = true
+    partyButton.hidden = false
   })
 
   engine.runRenderLoop(() => {
-    const canInteract = encounterState === 'exploring' && isInteractionAvailable(player.position, encounterTarget.position)
+    const nearWild = encounterTarget.isEnabled() && isInteractionAvailable(player.position, encounterTarget.position)
+    const nearHealing = isInteractionAvailable(player.position, healingStation.position, 2.6)
+    const canInteract = encounterState === 'exploring' && (nearWild || nearHealing)
+    interactionPromptText.textContent = nearWild ? 'Approach wild Aetherling' : 'Restore party at Aether crystal'
     interactionPrompt.hidden = !canInteract
     interactButton.disabled = !canInteract
 
     const interactionRequested = input.consumeInteraction()
     if (canInteract && interactionRequested) {
+      if (nearHealing) {
+        partyState = healParty(partyState)
+        renderParty()
+        showToast('Your party is fully restored.')
+        return
+      }
       encounterState = startEncounter(encounterState)
       interactionPrompt.hidden = true
       transitionTimer = window.setTimeout(showBattle, 360)
@@ -174,6 +221,7 @@ try {
   window.addEventListener('pagehide', () => {
     input.dispose()
     if (transitionTimer !== undefined) window.clearTimeout(transitionTimer)
+    if (toastTimer !== undefined) window.clearTimeout(toastTimer)
   }, { once: true })
 } catch (error) {
   console.error(error)

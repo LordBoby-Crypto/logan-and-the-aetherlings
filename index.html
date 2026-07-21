@@ -41,6 +41,18 @@
 
       <div id="interaction-prompt" hidden><kbd>E</kbd><span>Approach wild Aetherling</span></div>
 
+      <button id="party-button" type="button" hidden>Party <span id="party-count">1 / 3</span></button>
+      <section id="party-screen" class="panel-screen" hidden>
+        <div class="party-card">
+          <header><div><span class="eyebrow">Logan’s team</span><h2>Party</h2></div><button id="close-party" type="button" aria-label="Close party">×</button></header>
+          <div id="party-members" class="party-members"></div>
+          <p id="sanctuary-count">Sanctuary: 0 Aetherlings</p>
+          <p class="party-help">The teal crystal on Mossmere Path restores the whole party.</p>
+        </div>
+      </section>
+
+      <div id="game-toast" role="status" hidden></div>
+
       <section id="encounter-screen" aria-live="polite" hidden>
         <div class="battle-shell">
           <header><span class="eyebrow">Wild encounter · Turn <b id="battle-turn">1</b></span><strong id="prism-count">3 Aether Prisms</strong></header>

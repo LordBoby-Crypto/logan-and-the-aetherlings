@@ -11,3 +11,4 @@
 - Implemented version 0.0.2 graybox exploration controls with keyboard/touch movement, camera following, route bounds, obstacle collision/sliding, and lifecycle-safe input reset.
 - Implemented version 0.0.3 contextual wild interaction and the exploration-to-battle staging seam with keyboard/touch activation, movement locking, and repeatable return-to-route flow.
 - Implemented version 0.0.4 wild turn-based battle and tactical Aether Prism capture with health, Snare, visible odds, limited inventory, counter-turns, defeat, and capture completion.
+- Implemented version 0.0.5 captured-party placement, sanctuary overflow rules, damage carryover, party inspection, and range-gated healing at the Mossmere crystal.
