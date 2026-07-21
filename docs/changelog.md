@@ -13,3 +13,4 @@
 - Implemented version 0.0.4 wild turn-based battle and tactical Aether Prism capture with health, Snare, visible odds, limited inventory, counter-turns, defeat, and capture completion.
 - Implemented version 0.0.5 captured-party placement, sanctuary overflow rules, damage carryover, party inspection, and range-gated healing at the Mossmere crystal.
 - Implemented version 0.0.6 versioned IndexedDB saves with strict validation, migration, atomic primary/backup replacement, corruption recovery, and lifecycle autosaving.
+- Deployed version 0.0.7 to GitHub Pages with a live FPS diagnostic and issued the first combined Windows/iPhone playtest handoff.

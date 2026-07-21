@@ -1,7 +1,7 @@
 # Current Status
 
 - Date: 2026-07-21
-- Current build: 0.0.6 versioned local saves; not deployed
+- Current build: 0.0.7 first combined playtest; deployed to GitHub Pages
 - Current milestone: Preproduction — save/PWA reliability
 - Approval source: `decisions/DEC-001-concept-greenlight.md`
 
@@ -23,7 +23,7 @@
 - Continuity audit found all required record classes with no conflicts.
 - `npm run check` passed lint, 10 test files/27 tests, TypeScript compilation, production build, and PWA generation.
 - Headless Babylon scene construction/render and production HTTP/PWA smoke checks passed.
-- Hosted visual and real-device checks have not run.
+- Public HTTPS index, scoped assets, manifest, CI, and Pages deployment passed. Cloud 3D launch is blocked by unavailable WebGL; owner Windows/iPhone tests are pending under `playtests/0.0.7-handoff.md`.
 
 ## Known issues
 
@@ -32,4 +32,4 @@
 
 ## Next task
 
-Establish a hosted HTTPS preview and issue the first combined Windows/iPhone playtest handoff.
+Complete the 0.0.7 Windows/iPhone playtest and triage any failures before production asset work.

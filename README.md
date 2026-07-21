@@ -4,7 +4,9 @@ An original, family-friendly 3D creature-collecting RPG for Windows browsers and
 
 ## Project status
 
-Approved for preproduction on 2026-07-21. Version 0.0.6 contains the browser/PWA foundation, Mossmere exploration, wild battle and tactical capture, party/healing, and validated versioned IndexedDB saves with backup recovery.
+Approved for preproduction on 2026-07-21. Hosted version 0.0.7 contains the browser/PWA foundation, Mossmere exploration, wild battle and tactical capture, party/healing, validated local saves, and live FPS diagnostics. The first Windows/iPhone playtest is ready.
+
+[Play version 0.0.7](https://lordboby-crypto.github.io/logan-and-the-aetherlings/)
 
 ## Approved direction
 
