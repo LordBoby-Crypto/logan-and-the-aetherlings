@@ -13,7 +13,14 @@ import { CreateIcoSphere } from '@babylonjs/core/Meshes/Builders/icoSphereBuilde
 import { CreatePolyhedron } from '@babylonjs/core/Meshes/Builders/polyhedronBuilder.pure.js'
 import { CreateSphere } from '@babylonjs/core/Meshes/Builders/sphereBuilder.pure.js'
 import type { Mesh } from '@babylonjs/core/Meshes/mesh.pure.js'
+import { TransformNode } from '@babylonjs/core/Meshes/transformNode.pure.js'
 import { Scene } from '@babylonjs/core/scene.pure.js'
+
+export interface GrayboxSceneContext {
+  scene: Scene
+  camera: ArcRotateCamera
+  player: TransformNode
+}
 
 function material(scene: Scene, name: string, color: Color3): StandardMaterial {
   const result = new StandardMaterial(name, scene)
@@ -31,7 +38,7 @@ function addCrystal(scene: Scene, position: Vector3, crystalMaterial: StandardMa
   return crystal
 }
 
-export function createGrayboxScene(engine: Engine): Scene {
+export function createGrayboxScene(engine: Engine): GrayboxSceneContext {
   const scene = new Scene(engine)
   scene.clearColor = new Color4(0.04, 0.09, 0.11, 1)
   scene.ambientColor = new Color3(0.2, 0.25, 0.22)
@@ -104,14 +111,19 @@ export function createGrayboxScene(engine: Engine): Scene {
   roof.position = new Vector3(1.5, 4.25, 13.5)
   roof.material = tealMaterial
 
+  const player = new TransformNode('logan-player-root', scene)
+  player.position = new Vector3(0, 0, -7)
+
   const body = CreateCapsule('logan-graybox', { height: 2.2, radius: 0.45 }, scene)
-  body.position = new Vector3(0, 1.1, -7)
+  body.position = new Vector3(0, 1.1, 0)
+  body.parent = player
   body.material = loganMaterial
 
   const head = CreateSphere('logan-head-graybox', { diameter: 0.72 }, scene)
-  head.position = new Vector3(0, 2.4, -7)
+  head.position = new Vector3(0, 2.4, 0)
+  head.parent = player
   head.material = darkMaterial
 
   scene.activeCamera = camera
-  return scene
+  return { scene, camera, player }
 }
