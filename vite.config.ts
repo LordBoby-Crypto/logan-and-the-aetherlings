@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: '/logan-and-the-aetherlings/',
   build: {
     target: 'es2022',
     sourcemap: true,
@@ -18,16 +19,16 @@ export default defineConfig({
         background_color: '#0b1820',
         display: 'standalone',
         orientation: 'landscape',
-        start_url: '/',
+        start_url: '/logan-and-the-aetherlings/',
         icons: [
           {
-            src: '/aether-mark.svg',
+            src: '/logan-and-the-aetherlings/aether-mark.svg',
             sizes: 'any',
             type: 'image/svg+xml',
             purpose: 'any',
           },
           {
-            src: '/aether-mark-maskable.svg',
+            src: '/logan-and-the-aetherlings/aether-mark-maskable.svg',
             sizes: 'any',
             type: 'image/svg+xml',
             purpose: 'maskable',
@@ -35,7 +36,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        navigateFallback: '/index.html',
+        navigateFallback: '/logan-and-the-aetherlings/index.html',
         globPatterns: ['**/*.{js,css,html,svg,webmanifest}'],
       },
     }),

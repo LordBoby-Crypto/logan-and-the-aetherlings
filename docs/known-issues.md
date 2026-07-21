@@ -7,3 +7,4 @@
 | KI-003 | Open | Touch/keyboard movement has no hosted device evidence. | FEAT-002 remains Implemented rather than Ready for user testing. | Test after deployment. |
 | KI-004 | Expected | Graybox Logan has no production model or animation. | Movement visibly slides temporary geometry. | Replace after scale/performance validation and MeshyAI asset brief. |
 | KI-005 | Open | Battle balance and touch readability lack hosted device evidence. | FEAT-004 remains Implemented rather than Ready for user testing. | Validate after deployment. |
+| KI-006 | Open | IndexedDB lifecycle and recovery have not run in hosted Windows/iPhone browsers. | Save reliability is automated-test verified only. | Run refresh, close/reopen, background, installed-PWA, and recovery tests after deployment. |

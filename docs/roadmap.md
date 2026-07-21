@@ -10,7 +10,7 @@ Preproduction. Detailed stages are in `concept/preproduction-roadmap.md`.
 - Technical foundation: Implemented; hosted visual/device verification pending.
 - Graybox exploration: Implemented; hosted visual/device verification pending.
 - Core battle/capture prototype: Implemented; hosted balance/device verification pending.
-- Save/PWA reliability: Planned.
+- Save/PWA reliability: Implemented locally; hosted lifecycle and offline verification pending.
 - Visual/audio target: Planned.
 - MeshyAI pipeline proof: Planned.
 - Production review: Planned.

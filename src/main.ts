@@ -9,6 +9,8 @@ import { solveMovement } from './game/movement'
 import { chooseRenderTier, hardwareScaleFor } from './game/quality'
 import { InputController } from './platform/input'
 import { needsLandscapePrompt } from './platform/orientation'
+import { createGameSave } from './platform/saveData'
+import { IndexedDbSaveStore, SaveRepository } from './platform/saveRepository'
 import './styles.css'
 
 interface InstallPromptEvent extends Event {
@@ -120,7 +122,10 @@ try {
   let transitionTimer: number | undefined
   let battleState: BattleState = createBattle()
   let partyState: PartyState = createParty()
+  let encounterCaptured = false
   let toastTimer: number | undefined
+  let lastPositionSave = 0
+  let saveChain = Promise.resolve()
   const routeBounds = { minX: -3.2, maxX: 3.2, minZ: -15, maxZ: 10.5 }
   const obstacles = [{ x: 1.5, z: 13.5, radius: 3.9 }]
 
@@ -139,6 +144,33 @@ try {
     gameToast.hidden = false
     if (toastTimer !== undefined) window.clearTimeout(toastTimer)
     toastTimer = window.setTimeout(() => { gameToast.hidden = true }, 2200)
+  }
+
+  const saveRepository = new SaveRepository(new IndexedDbSaveStore())
+  const persistGame = (): Promise<void> => {
+    const snapshot = createGameSave(player.position, partyState, encounterCaptured)
+    saveChain = saveChain.then(() => saveRepository.save(snapshot)).catch((error) => {
+      console.error('Unable to save game', error)
+    })
+    return saveChain
+  }
+
+  try {
+    const loaded = await saveRepository.load()
+    if (loaded.save) {
+      partyState = loaded.save.party
+      encounterCaptured = loaded.save.encounterCaptured
+      player.position.x = Math.max(routeBounds.minX, Math.min(routeBounds.maxX, loaded.save.player.x))
+      player.position.z = Math.max(routeBounds.minZ, Math.min(routeBounds.maxZ, loaded.save.player.z))
+      movementState.position.copyFrom(player.position)
+      encounterTarget.setEnabled(!encounterCaptured)
+      partyButton.hidden = false
+      renderParty()
+      showToast(loaded.recovered ? 'Recovered progress from the backup save.' : 'Progress restored.')
+    }
+  } catch (error) {
+    console.error('Unable to load saved game', error)
+    showToast('Local saving is unavailable in this browser session.')
   }
 
   partyButton.addEventListener('click', () => { renderParty(); partyScreen.hidden = false })
@@ -180,6 +212,7 @@ try {
     partyState = updateLead(partyState, battleState.ally)
     if (battleState.outcome === 'captured') {
       partyState = placeCapture(partyState, battleState.wild)
+      encounterCaptured = true
       encounterTarget.setEnabled(false)
       showToast('Mirelume was placed in your party.')
     }
@@ -187,6 +220,7 @@ try {
     encounterState = leaveEncounter()
     encounterScreen.hidden = true
     partyButton.hidden = false
+    void persistGame()
   })
 
   engine.runRenderLoop(() => {
@@ -203,6 +237,7 @@ try {
         partyState = healParty(partyState)
         renderParty()
         showToast('Your party is fully restored.')
+        void persistGame()
         return
       }
       encounterState = startEncounter(encounterState)
@@ -215,14 +250,22 @@ try {
     player.position.copyFrom(movementState.position)
     player.rotation.y = movementState.facingRadians
     camera.target.set(player.position.x, 0.7, player.position.z + 4.5)
+    if (encounterState === 'exploring' && input.movement.lengthSquared() > 0 && performance.now() - lastPositionSave > 2000) {
+      lastPositionSave = performance.now()
+      void persistGame()
+    }
     scene.render()
   })
   window.addEventListener('resize', () => engine.resize())
   window.addEventListener('pagehide', () => {
+    void persistGame()
     input.dispose()
     if (transitionTimer !== undefined) window.clearTimeout(transitionTimer)
     if (toastTimer !== undefined) window.clearTimeout(toastTimer)
   }, { once: true })
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') void persistGame()
+  })
 } catch (error) {
   console.error(error)
   loadingScreen.hidden = true
